@@ -2,7 +2,7 @@
    var headlineRegExp =  /^(\#{1,6})([^\#\n]+)$/m;
    var stra = [];
    while ((stra = headlineRegExp.exec(str)) !== null) {
-     count = stra[1].length;
+     var count = stra[1].length;
      str = str.replace(stra[0], '<h' + count + '>' + stra[2] + '</h' + count + '>' + '\n');
    }
    return str;
@@ -62,6 +62,15 @@ var parseStrong = function(str) {
   }
   return str;
  }
+ 
+var parseCode = function(str) {
+  var codeRegExp = /`{1}(\w+)`{1}/;
+  var stra = [];
+  while ((stra = codeRegExp.exec(str)) !== null) {
+    str = str.replace(stra[0], '<pre>' + stra[1] + '</pre>');
+  }
+  return str;
+ }
 
 
 var markdown = {
@@ -74,6 +83,7 @@ var markdown = {
     str = parseStrong(str);
     str = parseHorizontaleLine(str);
     str = parseLink(str);
+    str = parseCode(str);
     return str;
   }
 };
